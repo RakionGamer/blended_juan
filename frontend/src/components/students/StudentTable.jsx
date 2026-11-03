@@ -21,7 +21,7 @@ export default function StudentTable({ students = [], onSelectStudent }) {
 
   return (
     <Card className="shadow-2xs overflow-hidden">
-      <Table>
+      <Table className="min-w-[720px]">
         <TableHeader>
           <TableRow className="bg-zinc-50/75 hover:bg-zinc-50/75">
             <TableHead className="font-semibold text-zinc-900">Estudiante</TableHead>

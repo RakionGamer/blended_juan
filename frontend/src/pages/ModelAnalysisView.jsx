@@ -151,8 +151,8 @@ export default function ModelAnalysisView() {
             <CardDescription>Métricas de validación cruzada y discriminación</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            {/* Fila de Métricas ML */}
-            <div className="grid grid-cols-5 gap-2 text-center pb-3 border-b border-zinc-100">
+            {/* Fila de Métricas ML (Responsiva) */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 text-center pb-3 border-b border-zinc-100">
               <div className="bg-zinc-50 p-2 rounded-md border border-zinc-100">
                 <p className="text-[10px] text-zinc-500 font-medium">Exactitud</p>
                 <p className="text-xs font-bold text-zinc-900 mt-0.5">{metricas.exactitud}</p>

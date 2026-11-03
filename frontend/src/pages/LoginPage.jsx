@@ -108,13 +108,13 @@ export default function LoginPage({ onLoginSuccess }) {
   };
 
   return (
-    <div className="h-screen w-full flex flex-col md:flex-row bg-white font-sans overflow-hidden">
-      {/* Panel Izquierdo: Animación secuencial y resplandor blanco tenue */}
+    <div className="min-h-screen md:h-screen w-full flex flex-col md:flex-row bg-white font-sans overflow-y-auto md:overflow-hidden">
+      {/* Panel Izquierdo: Animación secuencial y resplandor blanco tenue (visible en desktop) */}
       <motion.div
         variants={leftContainerVariants}
         initial="hidden"
         animate="visible"
-        className="relative md:w-1/2 h-full bg-zinc-950 text-zinc-50 flex flex-col justify-between pt-12 md:pt-16 pl-6 md:pl-14 pr-6 z-0 overflow-visible select-none"
+        className="hidden md:flex relative md:w-1/2 h-full bg-zinc-950 text-zinc-50 flex-col justify-between pt-12 md:pt-16 pl-6 md:pl-14 pr-6 z-0 overflow-visible select-none"
       >
         {/* Cabecera: Logo y Título secuenciales */}
         <div className="relative flex flex-col items-center text-center space-y-4 max-w-xl mx-auto z-20 px-4">
@@ -174,14 +174,26 @@ export default function LoginPage({ onLoginSuccess }) {
         </motion.div>
       </motion.div>
 
-      {/* Panel Derecho: Formulario con entrada secuencial sincronizada */}
-      <div className="relative md:w-1/2 h-full flex items-center justify-center p-8 md:p-16 bg-white z-10 shadow-[-25px_0_50px_rgba(0,0,0,0.18)]">
+      {/* Panel Derecho: Formulario con entrada secuencial sincronizada (100% responsivo) */}
+      <div className="w-full md:w-1/2 min-h-screen md:h-full flex items-center justify-center p-6 sm:p-10 md:p-16 bg-white z-10 shadow-[-25px_0_50px_rgba(0,0,0,0.18)]">
         <motion.div
           variants={rightContainerVariants}
           initial="hidden"
           animate="visible"
-          className="w-full max-w-sm space-y-7"
+          className="w-full max-w-sm space-y-6 sm:space-y-7"
         >
+          {/* Logo visible únicamente en pantallas móviles */}
+          <motion.div variants={rightItemVariants} className="flex md:hidden flex-col items-center text-center space-y-2 pb-2">
+            <img
+              src={blendedLogo}
+              alt="Blended Logo"
+              className="h-10 w-auto object-contain"
+            />
+            <p className="text-xs text-zinc-500 font-medium">
+              Prevención de Deserción • Blended Learning
+            </p>
+          </motion.div>
+
           <motion.div variants={rightItemVariants} className="space-y-1.5">
             <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-zinc-950">
               Iniciar sesión

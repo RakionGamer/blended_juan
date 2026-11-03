@@ -11,11 +11,12 @@ import { HeartHandshake } from '../animate-ui/icons/heart-handshake.jsx';
 import { Settings } from '../animate-ui/icons/settings.jsx';
 import { GraduationCap } from '../animate-ui/icons/graduation-cap.jsx';
 import { LogOut } from '../animate-ui/icons/log-out.jsx';
+import { X } from 'lucide-react';
 
 import { Avatar, AvatarFallback } from '../ui/avatar.jsx';
 import { Button } from '../ui/button.jsx';
 
-export default function Sidebar({ currentView, onNavigate, onLogout, user }) {
+export default function Sidebar({ currentView, onNavigate, onLogout, user, mobileOpen = false, onCloseMobile }) {
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'importar', label: 'Importar Datos', icon: Upload },
@@ -28,10 +29,10 @@ export default function Sidebar({ currentView, onNavigate, onLogout, user }) {
     { id: 'settings', label: 'Configuración', icon: Settings },
   ];
 
-  return (
-    <aside className="w-64 bg-zinc-950 text-zinc-300 flex flex-col shrink-0 h-full select-none rounded-2xl border border-zinc-800 shadow-md overflow-hidden">
+  const renderContent = (isMobile = false) => (
+    <>
       {/* Brand Header */}
-      <div className="shrink-0 p-5 border-b border-zinc-800/80">
+      <div className="shrink-0 p-5 border-b border-zinc-800/80 flex items-center justify-between">
         <AnimateIcon animateOnHover asChild>
           <div className="flex items-center gap-3 cursor-pointer">
             <div className="p-2 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-100 shadow-xs shrink-0">
@@ -47,6 +48,18 @@ export default function Sidebar({ currentView, onNavigate, onLogout, user }) {
             </div>
           </div>
         </AnimateIcon>
+
+        {isMobile && (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onCloseMobile}
+            className="h-8 w-8 text-zinc-400 hover:text-white hover:bg-zinc-900 md:hidden cursor-pointer"
+            title="Cerrar menú"
+          >
+            <X size={18} />
+          </Button>
+        )}
       </div>
 
       {/* Navigation List - scrollable independientemente */}
@@ -60,7 +73,10 @@ export default function Sidebar({ currentView, onNavigate, onLogout, user }) {
           return (
             <AnimateIcon key={item.id} animateOnHover asChild>
               <button
-                onClick={() => onNavigate(item.id)}
+                onClick={() => {
+                  onNavigate(item.id);
+                  if (isMobile && onCloseMobile) onCloseMobile();
+                }}
                 className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium cursor-pointer transition-colors duration-150 ${
                   isActive
                     ? 'bg-zinc-900 text-zinc-100 font-semibold border border-zinc-800/80 shadow-xs'
@@ -99,7 +115,10 @@ export default function Sidebar({ currentView, onNavigate, onLogout, user }) {
           <Button
             variant="ghost"
             size="icon"
-            onClick={onLogout}
+            onClick={() => {
+              onLogout();
+              if (isMobile && onCloseMobile) onCloseMobile();
+            }}
             title="Cerrar sesión"
             className="h-8 w-8 text-zinc-400 hover:text-red-400 hover:bg-zinc-900 cursor-pointer"
           >
@@ -107,6 +126,31 @@ export default function Sidebar({ currentView, onNavigate, onLogout, user }) {
           </Button>
         </AnimateIcon>
       </div>
-    </aside>
+    </>
+  );
+
+  return (
+    <>
+      {/* 1. Sidebar Fijo de Escritorio (exacto como la captura w-64) */}
+      <aside className="hidden md:flex w-64 bg-zinc-950 text-zinc-300 flex-col shrink-0 h-full select-none rounded-2xl border border-zinc-800 shadow-md overflow-hidden">
+        {renderContent(false)}
+      </aside>
+
+      {/* 2. Drawer Deslizante para Móviles y Tablets */}
+      {mobileOpen && (
+        <div className="fixed inset-0 z-50 md:hidden">
+          {/* Backdrop con desenfoque suave */}
+          <div 
+            className="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity animate-in fade-in duration-200"
+            onClick={onCloseMobile}
+          />
+
+          {/* Panel Lateral Móvil */}
+          <aside className="fixed inset-y-0 left-0 z-50 w-72 max-w-[85vw] bg-zinc-950 text-zinc-300 flex flex-col h-full shadow-2xl select-none animate-in slide-in-from-left duration-200 border-r border-zinc-800">
+            {renderContent(true)}
+          </aside>
+        </div>
+      )}
+    </>
   );
 }

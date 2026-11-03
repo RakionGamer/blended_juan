@@ -51,9 +51,9 @@ export default function StudentFilters({
       </div>
 
       {/* Filtros de Riesgo y Facultad */}
-      <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
+      <div className="flex flex-wrap items-center gap-2 w-full md:w-auto justify-between sm:justify-start">
         {/* Toggle Buttons estilo shadcn Tabs / Segmented Controls */}
-        <div className="inline-flex h-9 items-center justify-center rounded-lg bg-zinc-100 p-1 text-zinc-500">
+        <div className="inline-flex h-9 items-center justify-center rounded-lg bg-zinc-100 p-1 text-zinc-500 overflow-x-auto max-w-full">
           {riskOptions.map((opt) => {
             const isSelected = (!riskFilter && opt.value === '') || riskFilter === opt.value;
             return (
@@ -61,7 +61,7 @@ export default function StudentFilters({
                 key={opt.label}
                 type="button"
                 onClick={() => onRiskFilterChange(opt.value)}
-                className={`inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-xs font-medium transition-all cursor-pointer ${
+                className={`inline-flex items-center justify-center whitespace-nowrap rounded-md px-2.5 sm:px-3 py-1 text-xs font-medium transition-all cursor-pointer ${
                   isSelected
                     ? 'bg-white text-zinc-950 shadow-xs font-semibold'
                     : 'text-zinc-600 hover:text-zinc-900'
@@ -77,7 +77,7 @@ export default function StudentFilters({
         <select
           value={facultyFilter}
           onChange={(e) => onFacultyFilterChange(e.target.value)}
-          className="h-9 px-3 bg-white border border-zinc-200 rounded-md text-xs font-medium text-zinc-700 focus:outline-none focus:ring-1 focus:ring-zinc-950 cursor-pointer shadow-2xs"
+          className="h-9 px-3 w-full sm:w-auto bg-white border border-zinc-200 rounded-md text-xs font-medium text-zinc-700 focus:outline-none focus:ring-1 focus:ring-zinc-950 cursor-pointer shadow-2xs"
         >
           {faculties.map((f) => (
             <option key={f} value={f === 'Todas las facultades' ? '' : f}>

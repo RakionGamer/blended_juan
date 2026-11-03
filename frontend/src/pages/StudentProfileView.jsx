@@ -134,7 +134,7 @@ export default function StudentProfileView({ student, onBack }) {
       {/* Tarjeta de Información del Estudiante */}
       <Card className="shadow-2xs border-zinc-200 bg-white">
         <CardContent className="p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-          <div className="flex items-center gap-5">
+          <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-4 sm:gap-5 w-full md:w-auto">
             <Avatar className="w-20 h-20 border-2 border-zinc-200 shadow-xs bg-zinc-900 text-zinc-50 font-bold text-2xl">
               <AvatarFallback className="bg-zinc-900 text-zinc-50 font-bold text-2xl">
                 {student.nombre_completo?.charAt(0) || 'E'}

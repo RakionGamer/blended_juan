@@ -10,7 +10,7 @@ import ReportsView from './pages/ReportsView.jsx';
 import InterventionsView from './pages/InterventionsView.jsx';
 import SettingsView from './pages/SettingsView.jsx';
 import { fetchDashboardData, fetchStudents, setToken, getToken } from './services/api.js';
-import { LogOut } from 'lucide-react';
+import { LogOut, Menu } from 'lucide-react';
 import { Button } from './components/ui/button.jsx';
 import { Badge } from './components/ui/badge.jsx';
 import { Avatar, AvatarFallback } from './components/ui/avatar.jsx';
@@ -37,6 +37,7 @@ export default function App() {
   const [dashboardData, setDashboardData] = useState(null);
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Filtros del Directorio de Estudiantes
   const [search, setSearch] = useState('');
@@ -119,11 +120,12 @@ export default function App() {
       {!isAuthenticated ? (
         <LoginPage onLoginSuccess={handleLoginSuccess} />
       ) : (
-        <div className="h-screen w-full flex overflow-hidden bg-zinc-50 p-2.5 sm:p-3 gap-3 font-sans text-zinc-950">
-          {/* Sidebar Flotante como Tarjeta */}
+        <div className="h-screen w-full flex overflow-hidden bg-zinc-50 p-0 md:p-3 gap-0 md:gap-3 font-sans text-zinc-950">
+          {/* Sidebar Fijo de Escritorio y Drawer para Móviles */}
           <Sidebar
             currentView={currentView === 'profile' ? 'students' : currentView}
             onNavigate={(view) => {
+              setMobileMenuOpen(false);
               if (view === 'risk' || view === 'alerts') {
                 setRiskFilter('Alto');
                 setCurrentView('students');
@@ -136,20 +138,36 @@ export default function App() {
                 setCurrentView(view);
               }
             }}
-            onLogout={handleLogout}
+            onLogout={() => {
+              setMobileMenuOpen(false);
+              handleLogout();
+            }}
             user={user}
+            mobileOpen={mobileMenuOpen}
+            onCloseMobile={() => setMobileMenuOpen(false)}
           />
 
           {/* Contenedor Principal Flotante como Tarjeta */}
-          <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden bg-white rounded-2xl border border-zinc-200/80 shadow-2xs">
+          <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden bg-white rounded-none md:rounded-2xl border-0 md:border border-zinc-200/80 shadow-none md:shadow-2xs">
             {/* Barra Superior estilo shadcn - Limpia y Clara */}
-            <header className="shrink-0 bg-white border-b border-zinc-200/80 px-6 py-2.5 h-12 flex items-center justify-between z-20">
-              <div className="flex items-center gap-2">
+            <header className="shrink-0 bg-white border-b border-zinc-200/80 px-3 sm:px-6 py-2 h-12 sm:h-14 flex items-center justify-between z-20">
+              <div className="flex items-center gap-2 sm:gap-3">
+                {/* Botón Hamburger visible en Mobile/Tablet */}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setMobileMenuOpen(true)}
+                  className="md:hidden h-8 w-8 text-zinc-700 hover:text-zinc-950 hover:bg-zinc-100 cursor-pointer shrink-0"
+                  title="Abrir menú"
+                >
+                  <Menu className="w-5 h-5" />
+                </Button>
+
                 <Badge variant="outline" className="border-zinc-200 text-zinc-700 font-medium text-[11px] bg-zinc-50 py-0.5 px-2">
                   Campus Central
                 </Badge>
-                <span className="text-zinc-300">/</span>
-                <span className="text-xs font-medium text-zinc-500">
+                <span className="text-zinc-300 hidden sm:inline">/</span>
+                <span className="text-xs font-medium text-zinc-500 hidden sm:inline truncate max-w-[200px]">
                   Modalidad Blended Learning
                 </span>
               </div>
@@ -164,7 +182,7 @@ export default function App() {
                       {user?.rol || 'Coordinador'}
                     </p>
                   </div>
-                  <Avatar className="w-7 h-7 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-100 text-xs font-semibold">
+                  <Avatar className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-100 text-xs font-semibold">
                     <AvatarFallback className="bg-zinc-900 text-zinc-100 rounded-lg">
                       {user?.nombre ? user.nombre.charAt(0) : 'U'}
                     </AvatarFallback>
@@ -175,7 +193,7 @@ export default function App() {
 
             {/* Contenedor con Scroll Vertical Suave (scrollbar en el borde derecho) */}
             <div className="flex-1 overflow-y-auto min-h-0">
-              <main className="p-6 md:p-8 max-w-7xl w-full mx-auto pb-16">
+              <main className="p-3 sm:p-5 md:p-8 max-w-7xl w-full mx-auto pb-16">
                 {loading && !dashboardData && students.length === 0 ? (
                   <div className="flex flex-col items-center justify-center min-h-[50vh]">
                     <div className="w-7 h-7 border-2 border-zinc-900 border-t-transparent rounded-full animate-spin" />
