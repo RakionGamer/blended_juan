@@ -233,28 +233,7 @@ export default function LoginPage({ onLoginSuccess }) {
               </div>
             </motion.div>
 
-            <motion.div
-              variants={rightItemVariants}
-              className="flex items-center justify-between text-xs pt-1"
-            >
-              <label className="flex items-center gap-2 cursor-pointer select-none text-zinc-600">
-                <input
-                  type="checkbox"
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe(e.target.checked)}
-                  className="rounded border-zinc-300 text-zinc-900 focus:ring-zinc-950 w-4 h-4 cursor-pointer"
-                />
-                <span>Recordarme</span>
-              </label>
-
-              <button
-                type="button"
-                onClick={() => alert('Para reestablecer tu contraseña, contacta a la coordinación de sistemas.')}
-                className="text-zinc-900 hover:underline font-medium cursor-pointer"
-              >
-                ¿Olvidaste tu contraseña?
-              </button>
-            </motion.div>
+            
 
             <motion.div variants={rightItemVariants}>
               <Button
