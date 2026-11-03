@@ -39,7 +39,7 @@ export async function query(sql, params = []) {
   }
 
   try {
-    const [results] = await currentPool.execute(sql, params);
+    const [results] = await currentPool.query(sql, params);
     return results;
   } catch (error) {
     // Si la conexión se cayó o es un reinicio serverless, recrear pool y reintentar
@@ -47,7 +47,7 @@ export async function query(sql, params = []) {
       console.warn('[DB] Reconectando pool serverless...');
       pool = null;
       const retryPool = getPool();
-      const [results] = await retryPool.execute(sql, params);
+      const [results] = await retryPool.query(sql, params);
       return results;
     }
     throw error;

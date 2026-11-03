@@ -15,8 +15,10 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Rutas de API v1
+// Rutas de API v1 (soportar tanto con /api/v1 como directo /v1 para compatibilidad Vercel)
 app.use('/api/v1', apiRoutes);
+app.use('/v1', apiRoutes);
+app.use('/', apiRoutes);
 
 // Manejador centralizado de errores
 app.use(errorHandler);

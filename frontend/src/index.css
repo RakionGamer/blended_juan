@@ -64,6 +64,32 @@ body {
 }
 
 /* ==========================================================================
+   Barra de desplazamiento (Scrollbar) delgada y negra para todo el navegador
+   ========================================================================== */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #09090b;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #27272a transparent;
+}
+
+/* ==========================================================================
    Micro-interacciones para Iconos Lucide (estilo animate-ui.com)
    ========================================================================== */
 @keyframes bellRing {

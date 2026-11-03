@@ -60,10 +60,13 @@ export class StudentsService {
       params.push(`%${search}%`, `%${search}%`, `%${search}%`);
     }
 
+    // Sanitizar paginación numérica segura sin usar placeholders para evitar error 'Incorrect arguments to LIMIT'
+    const safeLimit = Math.max(1, Math.min(100, parseInt(limit, 10) || 50));
+    const safePage = Math.max(1, parseInt(page, 10) || 1);
+    const safeOffset = (safePage - 1) * safeLimit;
+
     // Ordenar de mayor a menor riesgo por defecto
-    sql += ' ORDER BY COALESCE(p.score_probabilidad, 0) DESC, e.id ASC LIMIT ? OFFSET ?';
-    const offset = (Number(page) - 1) * Number(limit);
-    params.push(Number(limit), offset);
+    sql += ` ORDER BY COALESCE(p.score_probabilidad, 0) DESC, e.id ASC LIMIT ${safeLimit} OFFSET ${safeOffset}`;
 
     const rows = await query(sql, params);
 

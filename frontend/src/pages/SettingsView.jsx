@@ -147,7 +147,7 @@ export default function SettingsView() {
           <div className="flex items-center justify-between p-3 rounded-lg border border-zinc-200 bg-zinc-50">
             <div>
               <p className="font-semibold text-zinc-950">Motor de Base de Datos</p>
-              <p className="text-zinc-500 font-mono text-[11px]">MySQL 8.4 • blended_learning_analytics en localhost:3306</p>
+              <p className="text-zinc-500 font-mono text-[11px]">TiDB Cloud (AWS Tokyo) • blended_learning_analytics</p>
             </div>
             <Badge variant="outline" className="bg-emerald-100 text-emerald-800 border-emerald-300 font-bold text-[10px]">
               CONECTADO

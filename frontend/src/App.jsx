@@ -127,6 +127,11 @@ export default function App() {
               if (view === 'risk' || view === 'alerts') {
                 setRiskFilter('Alto');
                 setCurrentView('students');
+              } else if (view === 'students') {
+                setRiskFilter('');
+                setFacultyFilter('');
+                setSearch('');
+                setCurrentView('students');
               } else {
                 setCurrentView(view);
               }
