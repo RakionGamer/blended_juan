@@ -29,7 +29,7 @@ export default function Sidebar({ currentView, onNavigate, onLogout, user }) {
   ];
 
   return (
-    <aside className="w-64 bg-zinc-950 text-zinc-300 flex flex-col shrink-0 h-full select-none rounded-2xl border border-zinc-800 shadow-md overflow-hidden">
+    <aside className="w-56 bg-zinc-950 text-zinc-300 flex flex-col shrink-0 h-full select-none rounded-2xl border border-zinc-800 shadow-sm overflow-hidden">
       {/* Brand Header */}
       <div className="shrink-0 p-5 border-b border-zinc-800/80">
         <AnimateIcon animateOnHover asChild>

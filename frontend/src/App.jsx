@@ -137,14 +137,14 @@ export default function App() {
 
           {/* Contenedor Principal Flotante como Tarjeta */}
           <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden bg-white rounded-2xl border border-zinc-200/80 shadow-2xs">
-            {/* Barra Superior estilo shadcn - Negro Elegante y Compacto */}
-            <header className="shrink-0 bg-zinc-950 border-b border-zinc-900 px-5 py-2 h-12 flex items-center justify-between z-20">
+            {/* Barra Superior estilo shadcn - Limpia y Clara */}
+            <header className="shrink-0 bg-white border-b border-zinc-200/80 px-6 py-2.5 h-12 flex items-center justify-between z-20">
               <div className="flex items-center gap-2">
-                <Badge variant="outline" className="border-zinc-800 text-zinc-300 font-medium text-[11px] bg-zinc-900/80 py-0.5 px-2">
+                <Badge variant="outline" className="border-zinc-200 text-zinc-700 font-medium text-[11px] bg-zinc-50 py-0.5 px-2">
                   Campus Central
                 </Badge>
-                <span className="text-zinc-700">/</span>
-                <span className="text-xs font-medium text-zinc-400">
+                <span className="text-zinc-300">/</span>
+                <span className="text-xs font-medium text-zinc-500">
                   Modalidad Blended Learning
                 </span>
               </div>
@@ -152,15 +152,15 @@ export default function App() {
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-2.5">
                   <div className="text-right hidden sm:block">
-                    <p className="text-xs font-medium text-zinc-100 leading-tight">
+                    <p className="text-xs font-semibold text-zinc-900 leading-tight">
                       {user?.nombre || 'Coordinación'}
                     </p>
-                    <p className="text-[10px] text-zinc-400 font-mono">
+                    <p className="text-[10px] text-zinc-500 font-mono">
                       {user?.rol || 'Coordinador'}
                     </p>
                   </div>
-                  <Avatar className="w-7 h-7 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-200 text-xs font-semibold">
-                    <AvatarFallback className="bg-zinc-900 text-zinc-200 rounded-lg">
+                  <Avatar className="w-7 h-7 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-100 text-xs font-semibold">
+                    <AvatarFallback className="bg-zinc-900 text-zinc-100 rounded-lg">
                       {user?.nombre ? user.nombre.charAt(0) : 'U'}
                     </AvatarFallback>
                   </Avatar>
