@@ -2,36 +2,56 @@ import mysql from 'mysql2/promise';
 import { config } from './env.js';
 
 let pool = null;
-let isDbConnected = false;
 
-try {
-  pool = mysql.createPool(config.db);
-} catch (error) {
-  console.warn('[DB WARNING] Error al inicializar pool MySQL:', error.message);
+export function getPool() {
+  if (!pool) {
+    try {
+      pool = mysql.createPool(config.db);
+    } catch (error) {
+      console.error('[DB ERROR] Error al crear pool MySQL:', error.message);
+    }
+  }
+  return pool;
 }
 
+// En entorno serverless de Vercel, siempre está disponible a través del pool
+export const isDbConnected = true;
+
 export async function checkDbConnection() {
-  if (!pool) return false;
+  const currentPool = getPool();
+  if (!currentPool) return false;
   try {
-    const conn = await pool.getConnection();
+    const conn = await currentPool.getConnection();
     await conn.ping();
     conn.release();
-    isDbConnected = true;
-    console.log('[DB] Conexión exitosa a MySQL (blended_learning_analytics)');
+    console.log('[DB] Conexión verificada con éxito a MySQL en la nube');
     return true;
   } catch (error) {
-    isDbConnected = false;
-    console.warn(`[DB WARNING] No se pudo conectar a MySQL (${error.message}). El sistema operará con almacenamiento en memoria/fallback.`);
+    console.warn(`[DB WARNING] Error al conectar a MySQL: ${error.message}`);
     return false;
   }
 }
 
 export async function query(sql, params = []) {
-  if (!pool || !isDbConnected) {
-    throw new Error('DATABASE_NOT_CONNECTED');
+  const currentPool = getPool();
+  if (!currentPool) {
+    throw new Error('Servicio de base de datos MySQL no inicializado.');
   }
-  const [results] = await pool.execute(sql, params);
-  return results;
+
+  try {
+    const [results] = await currentPool.execute(sql, params);
+    return results;
+  } catch (error) {
+    // Si la conexión se cayó o es un reinicio serverless, recrear pool y reintentar
+    if (error.code === 'PROTOCOL_CONNECTION_LOST' || error.code === 'ECONNRESET') {
+      console.warn('[DB] Reconectando pool serverless...');
+      pool = null;
+      const retryPool = getPool();
+      const [results] = await retryPool.execute(sql, params);
+      return results;
+    }
+    throw error;
+  }
 }
 
-export { pool, isDbConnected };
+export { pool };
